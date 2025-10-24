@@ -42,48 +42,107 @@ document.getElementById('saveConfig').addEventListener('click', async () => {
 // Load default answers from questions file
 document.getElementById('loadDefaultAnswers').addEventListener('click', () => {
   const defaultAnswers = {
+    // Basic Information
     "fullName": "Your Full Name",
     "email": "your.email@example.com",
     "phone": "+1234567890",
     "address": "Your Current Address",
+    "city": "Your City",
+    "state": "Your State",
+    "zipCode": "Your ZIP/Postal Code",
+    "country": "Your Country",
+    "dateOfBirth": "YYYY-MM-DD",
     "nationality": "Your Nationality",
+    
+    // Personal Preferences
+    "gender": "Prefer not to say",
+    "pronouns": "He/Him, She/Her, or They/Them",
+    "languages": "English (Fluent), Spanish (Conversational)",
+    "preferredLocations": "San Francisco, New York, Remote",
+    "officePreference": "Hybrid",
+    "willingToRelocate": "Yes",
+    
+    // Employment Details
+    "currentEmploymentStatus": "Employed",
+    "noticePeriod": "2 weeks",
+    "employmentType": "Full-time",
+    "earliestStartDate": "2024-01-15",
+    "availableStartDate": "YYYY-MM-DD",
+    "internshipStartDate": "YYYY-MM-DD",
+    "internshipEndDate": "YYYY-MM-DD",
+    "preferredWorkSchedule": "Flexible",
+    "reliableTransportation": "Yes",
+    "willingToWorkWeekendsHolidays": "Sometimes",
+    "availableShifts": "Day shift",
+    
+    // Professional Links
+    "linkedinUrl": "https://linkedin.com/in/yourprofile",
+    "portfolioUrl": "https://yourportfolio.com",
+    "githubUrl": "https://github.com/yourusername",
+    "websiteUrl": "https://yourwebsite.com",
+    
+    // Education & Experience
     "workAuthorization": "Authorized to work in [Country]",
     "education": "Bachelor's/Master's in [Field]",
-    "relevantCoursework": "List your relevant courses and projects",
-    "certifications": "List your certifications",
-    "workExperience": "Describe your previous work/internship experience",
-    "skills": "List your technical and soft skills",
-    "achievement": "Your most significant achievement",
-    "whyCompany": "Why you want to work for this company",
-    "whyRole": "Why you're interested in this role",
-    "careerGoals": "Where you see yourself in 5 years",
-    "expectations": "What you hope to gain from this opportunity",
-    "availability": "Yes/Your availability dates",
-    "howDidYouHear": "How you heard about this opportunity",
-    "accommodations": "No/Describe if needed",
-    "salaryExpectations": "Your salary range or 'Negotiable'",
-    "challenge": "Describe a challenge you overcame",
-    "strengthsWeaknesses": "Your strengths and weaknesses",
-    "legallyAuthorizedUS": "Yes/No",
-    "requireSponsorship": "Yes/No",
-    "protectedVeteran": "No/Yes with details",
-    "disability": "Prefer not to say/No/Yes",
-    "veteransPreference": "No/Yes",
-    "armedForcesService": "No/Yes",
-    "reasonableAccommodations": "No/Yes with details",
+    "university": "Your University Name",
+    "graduationYear": "2023",
+    "gpa": "3.5/4.0",
+    "major": "Computer Science",
+    "relevantCoursework": "Data Structures, Algorithms, Machine Learning, Web Development",
+    "certifications": "AWS Certified, Google Analytics Certified",
+    "workExperience": "3 years as Software Engineer at TechCorp, developed scalable web applications",
+    "previousEmployer": "Company Name",
+    "yearsOfExperience": "3 years",
+    "skills": "Python, JavaScript, React, Node.js, AWS, Docker, Git, Agile",
+    "technicalSkills": "Python, Java, SQL, React",
+    "softSkills": "Communication, Leadership, Problem-solving, Teamwork",
+    
+    // Motivational Questions
+    "achievement": "Led a team project that increased efficiency by 40%",
+    "whyCompany": "I'm excited about your company's mission to innovate in [field] and the opportunity to work with cutting-edge technology",
+    "whyRole": "This role aligns perfectly with my skills in [X] and my passion for [Y]",
+    "careerGoals": "I see myself as a senior technical lead, mentoring teams and architecting scalable solutions",
+    "expectations": "I hope to gain hands-on experience in [technology/field] and contribute to meaningful projects",
+    "howDidYouHear": "LinkedIn job posting",
+    "challenge": "Faced a critical production bug; debugged systematically, implemented fix and monitoring to prevent recurrence",
+    "strengthsWeaknesses": "Strengths: Quick learner, strong problem-solving. Weakness: Sometimes too detail-oriented, working on delegation",
+    
+    // Compensation & Availability
+    "salaryExpectations": "$80,000 - $100,000 or Negotiable",
+    "currentSalary": "Prefer not to disclose",
+    "availability": "Yes, available for the full duration",
+    "hoursPerWeek": "40 hours",
+    
+    // Accommodations & Accessibility
+    "accommodations": "No special accommodations needed",
+    "reasonableAccommodations": "No",
+    "disability": "Prefer not to say",
+    
+    // US-Specific
+    "legallyAuthorizedUS": "Yes",
+    "requireSponsorship": "No",
+    "protectedVeteran": "No",
+    "veteransPreference": "No",
+    "armedForcesService": "No",
+    "ethnicity": "Prefer not to say",
+    "race": "Prefer not to say",
+    
+    // UAE-Specific
     "uaeResidenceVisa": "Yes/No",
     "uaeSponsorship": "Yes/No",
-    "uaeMedicalFitness": "Yes/No",
-    "uaeQualificationsAttestation": "Yes/No",
-    "uaeHealthInsurance": "Yes/No",
-    "uaeGccNational": "Yes/No",
+    "uaeMedicalFitness": "Yes",
+    "uaeQualificationsAttestation": "Yes",
+    "uaeHealthInsurance": "Yes",
+    "uaeGccNational": "No",
+    
+    // EU-Specific
     "euCitizen": "Yes/No",
-    "euWorkPermit": "Yes/No - specify",
-    "euBlueCard": "Yes/No",
-    "euShortageOccupation": "Yes/No",
-    "euRecognizedQualifications": "Yes/No",
-    "euEmployerSponsorship": "Yes/No",
-    "euFamilyReunification": "No/Yes with details"
+    "euWorkPermit": "Yes/No - specify if needed",
+    "euBlueCard": "No",
+    "euShortageOccupation": "No",
+    "euRecognizedQualifications": "Yes",
+    "euEmployerSponsorship": "No",
+    "euFamilyReunification": "No"
   };
   
   document.getElementById('answersJson').value = JSON.stringify(defaultAnswers, null, 2);

@@ -21,7 +21,7 @@ async function matchFieldsWithChatGPT(request) {
     const systemPrompt = `You are an intelligent form-filling assistant. Your job is to match form fields with appropriate answers from the user's provided data.
 
 You will receive:
-1. A list of form fields with their metadata (labels, names, placeholders, etc.)
+1. A list of form fields with their metadata (labels, names, placeholders, types, etc.)
 2. Predefined answers in JSON format
 3. CV/Resume text
 
@@ -29,9 +29,17 @@ Your task is to:
 - Analyze each form field and determine what information it's asking for
 - Match it with the most appropriate answer from the provided data
 - If the exact answer isn't available, intelligently generate one based on the CV data and context
-- For dropdowns/select fields, choose the most appropriate option from the available options
-- For yes/no questions or checkboxes, provide "yes" or "no" based on the context
-- Return ONLY a JSON array with the format specified below
+
+Special handling for different field types:
+- **Dropdowns/Select fields**: Choose EXACTLY one option from the "options" array that best matches. Return the option text or value.
+- **Date fields**: Return dates in YYYY-MM-DD format (e.g., "2024-01-15")
+- **Yes/No questions**: Return exactly "Yes" or "No"
+- **Checkboxes**: Return "Yes" to check, "No" to uncheck
+- **Radio buttons**: Return the exact option text that should be selected
+- **Gender**: Common options are Male, Female, Non-binary, Prefer not to say
+- **Work preference**: Remote, Hybrid, On-site, In-office, Flexible
+- **Languages**: List with proficiency levels (e.g., "English (Fluent), Spanish (Conversational)")
+- **Locations**: Can be cities, states, countries, or "Remote"
 
 Return format (JSON only, no additional text):
 [
@@ -48,7 +56,10 @@ Where:
 - answer: the answer to fill in (or "skip" if you can't determine appropriate answer)
 - confidence: your confidence level (0.0 to 1.0)
 
-IMPORTANT: Return ONLY valid JSON, no markdown, no explanation, no additional text.`;
+IMPORTANT: 
+- Return ONLY valid JSON, no markdown, no explanation, no additional text
+- For dropdown fields, your answer MUST match one of the provided options (exactly or closely)
+- Be concise - don't add extra explanations in the answer field`;
 
     const userPrompt = `Form Fields:
 ${JSON.stringify(fields, null, 2)}

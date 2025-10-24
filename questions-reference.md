@@ -24,6 +24,30 @@
 19. Tell us about a time you faced a challenge and how you overcame it.  
 20. How do your strengths and weaknesses align with this role?
 
+#### Personal Information & Preferences
+21. **What is your gender?** (Options: Male; Female; Non-binary; Prefer not to say; Other)
+22. **What is your date of birth?**
+23. **What languages do you speak?** (Include proficiency levels)
+24. **What are your preferred work locations?** (Cities, states, or countries)
+25. **What is your office/work preference?** (Options: Remote; Hybrid; In-office; Flexible)
+26. **What is your earliest start date?** / **When can you start?**
+27. **What dates are you available?** (Start and end dates for internships)
+28. **Do you have a disability?** (Voluntary self-identification; Options: Yes; No; Prefer not to say)
+29. **What is your preferred pronouns?** (e.g., He/Him, She/Her, They/Them)
+30. **Are you willing to relocate?** (Yes/No/Depends on location)
+
+#### Employment Details
+31. **What is your current employment status?** (Options: Employed; Unemployed; Student; Self-employed)
+32. **What is your notice period?** (e.g., 2 weeks, 1 month, Immediate)
+33. **Are you applying for full-time or part-time?**
+34. **What is your preferred work schedule?** (e.g., 9-5, Flexible, Night shift)
+35. **Do you have reliable transportation?** (Yes/No)
+36. **Are you willing to work weekends/holidays?** (Yes/No/Sometimes)
+37. **What shift are you available for?** (Day/Evening/Night/Flexible)
+38. **LinkedIn profile URL**
+39. **Portfolio or website URL**
+40. **GitHub or professional profile**
+
 #### US-Specific Filters (Visa, Veteran, Disability)
 41. **Are you legally authorized to work in the United States?**  
 42. **Will you now or in the future require sponsorship for an employment-based visa (e.g., H-1B)?**  

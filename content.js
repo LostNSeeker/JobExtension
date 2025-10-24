@@ -81,6 +81,11 @@ function findFormFields() {
     'input[type="tel"]',
     'input[type="number"]',
     'input[type="url"]',
+    'input[type="date"]',
+    'input[type="datetime-local"]',
+    'input[type="month"]',
+    'input[type="week"]',
+    'input[type="time"]',
     'input:not([type])',
     'textarea',
     'select'
@@ -211,43 +216,112 @@ function fillField(element, value) {
     const type = element.type ? element.type.toLowerCase() : '';
     
     if (tagName === 'select') {
-      // For select dropdowns, try to match the value or text
+      // For select dropdowns, try multiple matching strategies
       const options = Array.from(element.options);
-      const matchedOption = options.find(opt => 
-        opt.value.toLowerCase() === value.toLowerCase() ||
-        opt.textContent.toLowerCase().includes(value.toLowerCase())
+      const valueLower = value.toLowerCase().trim();
+      
+      // Strategy 1: Exact value match
+      let matchedOption = options.find(opt => 
+        opt.value.toLowerCase() === valueLower
       );
+      
+      // Strategy 2: Exact text match
+      if (!matchedOption) {
+        matchedOption = options.find(opt => 
+          opt.textContent.toLowerCase().trim() === valueLower
+        );
+      }
+      
+      // Strategy 3: Partial text match (for longer option texts)
+      if (!matchedOption) {
+        matchedOption = options.find(opt => 
+          opt.textContent.toLowerCase().includes(valueLower) ||
+          valueLower.includes(opt.textContent.toLowerCase().trim())
+        );
+      }
+      
+      // Strategy 4: Fuzzy match for common variations
+      if (!matchedOption) {
+        const fuzzyMatches = {
+          'male': ['m', 'man', 'male'],
+          'female': ['f', 'woman', 'female'],
+          'remote': ['remote', 'work from home', 'wfh', '100% remote'],
+          'hybrid': ['hybrid', 'flexible', 'mix'],
+          'onsite': ['onsite', 'on-site', 'in-office', 'office'],
+          'yes': ['yes', 'y', 'true', 'agree'],
+          'no': ['no', 'n', 'false', 'disagree']
+        };
+        
+        for (const [key, variations] of Object.entries(fuzzyMatches)) {
+          if (variations.some(v => valueLower.includes(v))) {
+            matchedOption = options.find(opt => 
+              variations.some(v => opt.textContent.toLowerCase().includes(v))
+            );
+            if (matchedOption) break;
+          }
+        }
+      }
       
       if (matchedOption) {
         element.value = matchedOption.value;
         element.dispatchEvent(new Event('change', { bubbles: true }));
+        element.dispatchEvent(new Event('input', { bubbles: true }));
       }
     } else if (type === 'radio') {
       // For radio buttons, check if value matches
-      const valueLower = value.toLowerCase();
-      if (element.value.toLowerCase().includes(valueLower) ||
-          element.labels?.[0]?.textContent.toLowerCase().includes(valueLower)) {
+      const valueLower = value.toLowerCase().trim();
+      const elementValue = element.value.toLowerCase();
+      const elementLabel = element.labels?.[0]?.textContent.toLowerCase() || '';
+      
+      if (elementValue.includes(valueLower) || 
+          valueLower.includes(elementValue) ||
+          elementLabel.includes(valueLower)) {
         element.checked = true;
         element.dispatchEvent(new Event('change', { bubbles: true }));
+        element.dispatchEvent(new Event('click', { bubbles: true }));
       }
     } else if (type === 'checkbox') {
       // For checkboxes, check if should be checked
-      const shouldCheck = ['yes', 'true', '1', 'check', 'checked'].includes(value.toLowerCase());
+      const shouldCheck = ['yes', 'true', '1', 'check', 'checked', 'agree', 'accept'].includes(value.toLowerCase().trim());
       element.checked = shouldCheck;
       element.dispatchEvent(new Event('change', { bubbles: true }));
+      element.dispatchEvent(new Event('click', { bubbles: true }));
+    } else if (type === 'date' || type === 'datetime-local' || type === 'month' || type === 'week') {
+      // For date inputs, ensure proper format
+      let dateValue = value.trim();
+      
+      // Try to parse and format date if needed
+      if (type === 'date' && !dateValue.match(/^\d{4}-\d{2}-\d{2}$/)) {
+        // Try to convert to YYYY-MM-DD format
+        const date = new Date(dateValue);
+        if (!isNaN(date.getTime())) {
+          dateValue = date.toISOString().split('T')[0];
+        }
+      }
+      
+      element.value = dateValue;
+      element.dispatchEvent(new Event('input', { bubbles: true }));
+      element.dispatchEvent(new Event('change', { bubbles: true }));
     } else {
-      // For text inputs, textareas, etc.
+      // For text inputs, textareas, numbers, urls, etc.
       element.value = value;
       element.dispatchEvent(new Event('input', { bubbles: true }));
       element.dispatchEvent(new Event('change', { bubbles: true }));
+      
+      // Some sites use React/Vue and need additional events
+      element.dispatchEvent(new Event('blur', { bubbles: true }));
     }
     
     // Highlight filled field briefly
     const originalBorder = element.style.border;
+    const originalBackground = element.style.backgroundColor;
     element.style.border = '2px solid #38ef7d';
+    element.style.backgroundColor = 'rgba(56, 239, 125, 0.1)';
+    
     setTimeout(() => {
       element.style.border = originalBorder;
-    }, 1000);
+      element.style.backgroundColor = originalBackground;
+    }, 1500);
     
   } catch (error) {
     console.error('Error filling field:', error);
