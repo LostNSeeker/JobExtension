@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JobAppy Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Papaji Extension</h1>
+      <p class="subtitle">ॐ श्री गणेशाय नमः</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="config">Configuration</button>
+      <button class="tab-btn" data-tab="answers">Answers</button>
+      <button class="tab-btn" data-tab="cv">CV Data</button>
+    </div>
+
+    <!-- Configuration Tab -->
+    <div class="tab-content active" id="config-tab">
+      <div class="section">
+        <label for="apiKey">
+          <span class="label-text">OpenAI API Key</span>
+          <span class="required">*</span>
+        </label>
+        <input type="password" id="apiKey" placeholder="sk-...">
+        <p class="hint">Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></p>
+      </div>
+
+      <div class="section">
+        <label for="model">
+          <span class="label-text">GPT Model</span>
+        </label>
+        <select id="model">
+          <option value="gpt-4o">GPT-4o (Recommended)</option>
+          <option value="gpt-4o-mini">GPT-4o-mini (Faster, Cheaper)</option>
+          <option value="gpt-4-turbo">GPT-4 Turbo</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <label class="checkbox-label">
+          <input type="checkbox" id="autoDetect">
+          <span>Auto-detect forms on page load</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="saveConfig" class="btn btn-primary">Save Configuration</button>
+      </div>
+    </div>
+
+    <!-- Answers Tab -->
+    <div class="tab-content" id="answers-tab">
+      <div class="section">
+        <label for="answersJson">
+          <span class="label-text">Predefined Answers (JSON format)</span>
+        </label>
+        <textarea id="answersJson" rows="15" placeholder='{"fullName": "John Doe", "email": "john@example.com", ...}'></textarea>
+        <button id="loadDefaultAnswers" class="btn btn-secondary">Load from Questions File</button>
+      </div>
+      <div class="actions">
+        <button id="saveAnswers" class="btn btn-primary">Save Answers</button>
+      </div>
+    </div>
+
+    <!-- CV Data Tab -->
+    <div class="tab-content" id="cv-tab">
+      <div class="section">
+        <label for="cvText">
+          <span class="label-text">CV/Resume Text</span>
+        </label>
+        <textarea id="cvText" rows="15" placeholder="Paste your CV/Resume content here..."></textarea>
+      </div>
+      <div class="actions">
+        <button id="saveCv" class="btn btn-primary">Save CV Data</button>
+      </div>
+    </div>
+
+    <!-- Fill Form Section (Always Visible) -->
+    <div class="fill-section">
+      <button id="fillForm" class="btn btn-fill">✨ Fill Form on Current Page</button>
+      <div id="status" class="status"></div>
+    </div>
+
+    <footer>
+      <p class="footer-text">Made with ❤️ in NE block </p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+

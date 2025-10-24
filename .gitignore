@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# API Keys (NEVER commit these)
+.env
+*.key
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.log
+*.tmp
+temp/
+
+# User data (don't commit personal info)
+user_data/
+my_answers.json
+my_cv.txt
+
